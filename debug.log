@@ -1,0 +1,110 @@
+debug 2025/08/16 19:55:29 question what is your name?, answer: fdsa
+debug 2025/08/16 19:55:29 next: 0
+debug 2025/08/16 19:55:29 len: 2
+debug 2025/08/16 19:55:29 if smaller than len: true
+debug 2025/08/16 19:55:29 incrementing index
+debug 2025/08/16 19:55:29 question what is your name?, answer: fd
+debug 2025/08/16 19:55:29 next: 0
+debug 2025/08/16 19:55:29 len: 2
+debug 2025/08/16 19:55:29 if smaller than len: true
+debug 2025/08/16 19:55:29 incrementing index
+debug 2025/08/16 19:55:29 question what is your name?, answer: asf
+debug 2025/08/16 19:55:29 next: 0
+debug 2025/08/16 19:55:29 len: 2
+debug 2025/08/16 19:55:29 if smaller than len: true
+debug 2025/08/16 19:55:29 incrementing index
+debug 2025/08/16 19:55:30 question what is your name?, answer: das
+debug 2025/08/16 19:55:30 next: 0
+debug 2025/08/16 19:55:30 len: 2
+debug 2025/08/16 19:55:30 if smaller than len: true
+debug 2025/08/16 19:55:30 incrementing index
+debug 2025/08/16 19:55:30 question what is your name?, answer: f
+debug 2025/08/16 19:55:30 next: 0
+debug 2025/08/16 19:55:30 len: 2
+debug 2025/08/16 19:55:30 if smaller than len: true
+debug 2025/08/16 19:55:30 incrementing index
+debug 2025/08/16 19:55:30 question what is your name?, answer: asf
+debug 2025/08/16 19:55:30 next: 0
+debug 2025/08/16 19:55:30 len: 2
+debug 2025/08/16 19:55:30 if smaller than len: true
+debug 2025/08/16 19:55:30 incrementing index
+debug 2025/08/16 19:55:30 question what is your name?, answer: as
+debug 2025/08/16 19:55:30 next: 0
+debug 2025/08/16 19:55:30 len: 2
+debug 2025/08/16 19:55:30 if smaller than len: true
+debug 2025/08/16 19:55:30 incrementing index
+debug 2025/08/16 19:55:30 question what is your name?, answer: dfa
+debug 2025/08/16 19:55:30 next: 0
+debug 2025/08/16 19:55:30 len: 2
+debug 2025/08/16 19:55:30 if smaller than len: true
+debug 2025/08/16 19:55:30 incrementing index
+debug 2025/08/16 19:57:31 question what is your name?, answer: fdas
+debug 2025/08/16 19:57:31 next: 0
+debug 2025/08/16 19:57:31 len: 2
+debug 2025/08/16 19:57:31 if smaller than len: true
+debug 2025/08/16 19:57:31 incrementing index
+debug 2025/08/16 19:57:32 question what is your name?, answer: fdas
+debug 2025/08/16 19:57:32 next: 0
+debug 2025/08/16 19:57:32 len: 2
+debug 2025/08/16 19:57:32 if smaller than len: true
+debug 2025/08/16 19:57:32 incrementing index
+debug 2025/08/16 19:57:32 question what is your name?, answer: fad
+debug 2025/08/16 19:57:32 next: 0
+debug 2025/08/16 19:57:32 len: 2
+debug 2025/08/16 19:57:32 if smaller than len: true
+debug 2025/08/16 19:57:32 incrementing index
+debug 2025/08/16 19:57:32 question what is your name?, answer: sf
+debug 2025/08/16 19:57:32 next: 0
+debug 2025/08/16 19:57:32 len: 2
+debug 2025/08/16 19:57:32 if smaller than len: true
+debug 2025/08/16 19:57:32 incrementing index
+debug 2025/08/16 19:58:20 question what is your name?, answer: fdsa
+debug 2025/08/16 19:58:20 next: 0
+debug 2025/08/16 19:58:20 len: 2
+debug 2025/08/16 19:58:20 if smaller than len: true
+debug 2025/08/16 19:58:20 incrementing index
+debug 2025/08/16 19:58:21 question what is your age?, answer: fdas
+debug 2025/08/16 19:58:21 next: 1
+debug 2025/08/16 19:58:21 len: 2
+debug 2025/08/16 19:58:21 if smaller than len: true
+debug 2025/08/16 19:58:21 incrementing index
+debug 2025/08/16 19:58:21 question what is your favorite quote?, answer: dasf
+debug 2025/08/16 19:58:21 next: 2
+debug 2025/08/16 19:58:21 len: 2
+debug 2025/08/16 19:58:21 if smaller than len: false
+debug 2025/08/16 19:58:21 resetting index
+debug 2025/08/16 19:58:22 question what is your name?, answer: fdsa
+debug 2025/08/16 19:58:22 next: 0
+debug 2025/08/16 19:58:22 len: 2
+debug 2025/08/16 19:58:22 if smaller than len: true
+debug 2025/08/16 19:58:22 incrementing index
+debug 2025/08/16 19:58:22 question what is your age?, answer: dasf
+debug 2025/08/16 19:58:22 next: 1
+debug 2025/08/16 19:58:22 len: 2
+debug 2025/08/16 19:58:22 if smaller than len: true
+debug 2025/08/16 19:58:22 incrementing index
+debug 2025/08/16 19:58:23 question what is your favorite quote?, answer: afaf
+debug 2025/08/16 19:58:23 next: 2
+debug 2025/08/16 19:58:23 len: 2
+debug 2025/08/16 19:58:23 if smaller than len: false
+debug 2025/08/16 19:58:23 resetting index
+debug 2025/08/18 01:13:49 question what is your name?, answer: fjadlsk;jf
+debug 2025/08/18 01:13:49 next: 0
+debug 2025/08/18 01:13:49 len: 2
+debug 2025/08/18 01:13:49 if smaller than len: true
+debug 2025/08/18 01:13:49 incrementing index
+debug 2025/08/18 01:13:49 question what is your age?, answer: fdasfas
+debug 2025/08/18 01:13:49 next: 1
+debug 2025/08/18 01:13:49 len: 2
+debug 2025/08/18 01:13:49 if smaller than len: true
+debug 2025/08/18 01:13:49 incrementing index
+debug 2025/08/18 01:13:50 question what is your favorite quote?, answer: dfasfasf
+debug 2025/08/18 01:13:50 next: 2
+debug 2025/08/18 01:13:50 len: 2
+debug 2025/08/18 01:13:50 if smaller than len: false
+debug 2025/08/18 01:13:50 resetting index
+debug 2025/08/18 01:13:51 question what is your name?, answer: fjadlsk;jf
+debug 2025/08/18 01:13:51 next: 0
+debug 2025/08/18 01:13:51 len: 2
+debug 2025/08/18 01:13:51 if smaller than len: true
+debug 2025/08/18 01:13:51 incrementing index

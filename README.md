@@ -2,11 +2,16 @@
 
 > [日本語版はこちら](README_ja.md) / [Japanese version is here](README_ja.md)
 
+****It's not working right now because it's WIP**
 tuimv is a terminal-based file movement tool that provides an intuitive UI and efficient file operations.
 
 ## Overview
 
 tuimv is a file management tool built using Bubble Tea (Go's TUI framework) with a 6-panel layout. Users can select files from the current directory and move them to a target directory.
+
+
+![image](./assets/images/image.png)
+
 
 ## Architecture
 

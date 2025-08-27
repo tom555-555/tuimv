@@ -1,27 +1,29 @@
-# Better MV - アーキテクチャ図
+# tuimv - Architecture Diagrams
 
-このドキュメントでは、Better MVの動作フローとstateの変更を図で説明します。
+> [日本語版はこちら](architecture-diagrams_ja.md) / [Japanese version is here](architecture-diagrams_ja.md)
 
-## 1. アプリケーション起動フロー
+This document explains tuimv's operation flow and state changes using diagrams.
+
+## 1. Application Startup Flow
 
 ```mermaid
 flowchart TD
-    A[main関数開始] --> B[tea.LogToFile設定]
-    B --> C[ui.NewModel呼び出し]
-    C --> D[model.NewAppState作成]
-    D --> E[UIコンポーネント初期化]
-    E --> F[tea.NewProgram作成]
-    F --> G[プログラム実行開始]
-    G --> H[Model.Init呼び出し]
-    H --> I[メインループ開始]
-    I --> J[イベント待機]
-    J --> K{イベント発生}
-    K --> L[Update関数呼び出し]
-    L --> M[View関数呼び出し]
+    A[main function start] --> B[tea.LogToFile setup]
+    B --> C[ui.NewModel call]
+    C --> D[model.NewAppState creation]
+    D --> E[UI component initialization]
+    E --> F[tea.NewProgram creation]
+    F --> G[Program execution start]
+    G --> H[Model.Init call]
+    H --> I[Main loop start]
+    I --> J[Event waiting]
+    J --> K{Event occurred}
+    K --> L[Update function call]
+    L --> M[View function call]
     M --> J
 ```
 
-## 2. 状態管理の構造
+## 2. State Management Structure
 
 ```mermaid
 classDiagram
@@ -86,34 +88,34 @@ classDiagram
     AppState --> AppMode : uses
 ```
 
-## 3. イベント処理フロー
+## 3. Event Processing Flow
 
 ```mermaid
 flowchart TD
-    A[イベント受信] --> B{イベントタイプ}
+    A[Event received] --> B{Event type}
     
-    B -->|WindowSizeMsg| C[ウィンドウサイズ更新]
-    B -->|KeyMsg| D[キー入力処理]
-    B -->|PanelSwitchMsg| E[パネル切り替え]
-    B -->|FileSelectedMsg| F[ファイル選択]
-    B -->|DirectoryChangedMsg| G[ディレクトリ変更]
-    B -->|SearchQueryChangedMsg| H[検索クエリ変更]
+    B -->|WindowSizeMsg| C[Window size update]
+    B -->|KeyMsg| D[Key input processing]
+    B -->|PanelSwitchMsg| E[Panel switching]
+    B -->|FileSelectedMsg| F[File selection]
+    B -->|DirectoryChangedMsg| G[Directory change]
+    B -->|SearchQueryChangedMsg| H[Search query change]
     
-    C --> I[幅・高さ更新]
-    I --> J[ヘッダー幅調整]
+    C --> I[Width/height update]
+    I --> J[Header width adjustment]
     
-    D --> K{キーの種類}
-    K -->|グローバルキー| L[グローバル処理]
-    K -->|パネル固有キー| M[パネル固有処理]
+    D --> K{Key type}
+    K -->|Global keys| L[Global processing]
+    K -->|Panel-specific keys| M[Panel-specific processing]
     
-    E --> N[アクティブパネル更新]
-    N --> O[フォーカス設定]
+    E --> N[Active panel update]
+    N --> O[Focus setting]
     
-    F --> P[選択済みファイル追加]
-    G --> Q[ディレクトリパス更新]
-    H --> R[検索クエリ更新]
+    F --> P[Selected files addition]
+    G --> Q[Directory path update]
+    H --> R[Search query update]
     
-    L --> S[状態更新完了]
+    L --> S[State update complete]
     M --> S
     O --> S
     P --> S
@@ -121,33 +123,33 @@ flowchart TD
     R --> S
     J --> S
     
-    S --> T[View関数呼び出し]
-    T --> U[画面更新]
+    S --> T[View function call]
+    T --> U[Screen update]
 ```
 
-## 4. パネルナビゲーション状態遷移
+## 4. Panel Navigation State Transitions
 
 ```mermaid
 stateDiagram-v2
-    [*] --> CurrentDirInput : 初期状態
+    [*] --> CurrentDirInput : Initial state
     
-    CurrentDirInput --> CurrentFilesList : j (下)
-    CurrentDirInput --> TargetDirInput : l (右)
+    CurrentDirInput --> CurrentFilesList : j (down)
+    CurrentDirInput --> TargetDirInput : l (right)
     
-    CurrentFilesList --> CurrentDirInput : k (上)
-    CurrentFilesList --> TargetFilesList : l (右)
+    CurrentFilesList --> CurrentDirInput : k (up)
+    CurrentFilesList --> TargetFilesList : l (right)
     
-    TargetDirInput --> CurrentDirInput : h (左)
-    TargetDirInput --> TargetFilesList : j (下)
-    TargetDirInput --> SelectedFilesList : l (右)
+    TargetDirInput --> CurrentDirInput : h (left)
+    TargetDirInput --> TargetFilesList : j (down)
+    TargetDirInput --> SelectedFilesList : l (right)
     
-    TargetFilesList --> CurrentFilesList : h (左)
-    TargetFilesList --> TargetDirInput : k (上)
+    TargetFilesList --> CurrentFilesList : h (left)
+    TargetFilesList --> TargetDirInput : k (up)
     
-    SelectedFilesList --> TargetDirInput : h (左)
-    SelectedFilesList --> SearchResultsList : l (右)
+    SelectedFilesList --> TargetDirInput : h (left)
+    SelectedFilesList --> SearchResultsList : l (right)
     
-    SearchResultsList --> SelectedFilesList : h (左)
+    SearchResultsList --> SelectedFilesList : h (left)
     
     CurrentDirInput --> TargetDirInput : Tab
     TargetDirInput --> CurrentFilesList : Tab
@@ -157,43 +159,43 @@ stateDiagram-v2
     SearchResultsList --> CurrentDirInput : Tab
 ```
 
-## 5. ファイル選択状態の変化
+## 5. File Selection State Changes
 
 ```mermaid
 flowchart LR
-    A[ファイルリスト表示] --> B[Spaceキー押下]
-    B --> C{ファイル選択状態チェック}
-    C -->|未選択| D[ファイル選択]
-    C -->|選択済み| E[ファイル選択解除]
+    A[File list display] --> B[Space key press]
+    B --> C{File selection state check}
+    C -->|Unselected| D[File selection]
+    C -->|Selected| E[File deselection]
     
-    D --> F[SelectedFiles配列に追加]
-    F --> G[ファイルのIsSelected = true]
-    G --> H[選択済みファイルリスト更新]
+    D --> F[Add to SelectedFiles array]
+    F --> G[File IsSelected = true]
+    G --> H[Selected files list update]
     
-    E --> I[SelectedFiles配列から削除]
-    I --> J[ファイルのIsSelected = false]
+    E --> I[Remove from SelectedFiles array]
+    I --> J[File IsSelected = false]
     J --> H
     
-    H --> K[画面再描画]
+    H --> K[Screen redraw]
 ```
 
-## 6. 検索モードの状態遷移
+## 6. Search Mode State Transitions
 
 ```mermaid
 stateDiagram-v2
-    [*] --> NormalMode : アプリ起動
+    [*] --> NormalMode : Application startup
     
-    NormalMode --> SearchMode : /キー押下
-    SearchMode --> NormalMode : Escキー押下
+    NormalMode --> SearchMode : / key press
+    SearchMode --> NormalMode : Esc key press
     
-    SearchMode --> Searching : 検索クエリ入力
-    Searching --> SearchMode : 検索結果表示
+    SearchMode --> Searching : Search query input
+    Searching --> SearchMode : Search results display
     
-    SearchMode --> NormalMode : 検索結果選択
-    Searching --> NormalMode : 検索キャンセル
+    SearchMode --> NormalMode : Search result selection
+    Searching --> NormalMode : Search cancel
 ```
 
-## 7. メッセージの流れ
+## 7. Message Flow
 
 ```mermaid
 sequenceDiagram
@@ -202,52 +204,52 @@ sequenceDiagram
     participant AppState
     participant UI
     
-    User->>Model: キー入力
+    User->>Model: Key input
     Model->>Model: handleKeyPress
-    Model->>Model: パネル判定
+    Model->>Model: Panel determination
     
-    alt パネル切り替え
+    alt Panel switching
         Model->>Model: moveToPanel
         Model->>Model: SetActivePanel
-        Model->>AppState: ActivePanel更新
-        Model->>UI: フォーカス設定
-    else ファイル選択
+        Model->>AppState: ActivePanel update
+        Model->>UI: Focus setting
+    else File selection
         Model->>Model: handleFileSelectedMsg
-        Model->>AppState: SelectedFiles更新
-    else ディレクトリ変更
+        Model->>AppState: SelectedFiles update
+    else Directory change
         Model->>Model: handleDirectoryChangedMsg
-        Model->>AppState: CurrentDir/TargetDir更新
+        Model->>AppState: CurrentDir/TargetDir update
     end
     
-    Model->>UI: View関数呼び出し
-    UI->>User: 画面更新
+    Model->>UI: View function call
+    UI->>User: Screen update
 ```
 
-## 8. データフローの概要
+## 8. Data Flow Overview
 
 ```mermaid
 flowchart TB
-    subgraph "入力層"
-        A[キーボード入力]
-        B[ウィンドウサイズ変更]
+    subgraph "Input Layer"
+        A[Keyboard input]
+        B[Window size change]
     end
     
-    subgraph "処理層"
-        C[イベントハンドラー]
-        D[状態更新ロジック]
-        E[パネル管理]
+    subgraph "Processing Layer"
+        C[Event handlers]
+        D[State update logic]
+        E[Panel management]
     end
     
-    subgraph "状態層"
+    subgraph "State Layer"
         F[AppState]
         G[Model.currentPanel]
-        H[UIコンポーネント状態]
+        H[UI component states]
     end
     
-    subgraph "表示層"
-        I[View関数]
-        J[レンダリング]
-        K[画面出力]
+    subgraph "Display Layer"
+        I[View function]
+        J[Rendering]
+        K[Screen output]
     end
     
     A --> C
@@ -263,50 +265,50 @@ flowchart TB
     J --> K
 ```
 
-## 9. エラーハンドリングフロー
+## 9. Error Handling Flow
 
 ```mermaid
 flowchart TD
-    A[操作実行] --> B{エラー発生?}
-    B -->|No| C[正常完了]
-    B -->|Yes| D[エラーメッセージ作成]
+    A[Operation execution] --> B{Error occurred?}
+    B -->|No| C[Success completion]
+    B -->|Yes| D[Error message creation]
     
-    D --> E[ErrorMsg作成]
-    E --> F[エラーハンドラー呼び出し]
-    F --> G[エラー状態保存]
-    G --> H[ユーザー通知]
+    D --> E[ErrorMsg creation]
+    E --> F[Error handler call]
+    F --> G[Error state saving]
+    G --> H[User notification]
     
-    H --> I{リトライ可能?}
-    I -->|Yes| J[リトライオプション表示]
-    I -->|No| K[エラー状態継続]
+    H --> I{Retry possible?}
+    I -->|Yes| J[Retry option display]
+    I -->|No| K[Error state continuation]
     
-    J --> L[ユーザー選択]
-    L --> M{リトライ実行?}
+    J --> L[User selection]
+    L --> M{Execute retry?}
     M -->|Yes| A
     M -->|No| K
     
-    K --> N[エラー状態クリア]
-    N --> O[通常状態復帰]
+    K --> N[Error state clear]
+    N --> O[Normal state recovery]
 ```
 
-## 10. パフォーマンス最適化のポイント
+## 10. Performance Optimization Points
 
 ```mermaid
 flowchart LR
-    A[イベント受信] --> B{更新が必要?}
-    B -->|No| C[スキップ]
-    B -->|Yes| D[状態更新]
+    A[Event received] --> B{Update needed?}
+    B -->|No| C[Skip]
+    B -->|Yes| D[State update]
     
-    D --> E{View更新が必要?}
-    E -->|No| F[完了]
-    E -->|Yes| G[View関数実行]
+    D --> E{View update needed?}
+    E -->|No| F[Complete]
+    E -->|Yes| G[View function execution]
     
-    G --> H[差分レンダリング]
-    H --> I[画面更新]
+    G --> H[Differential rendering]
+    H --> I[Screen update]
     
     C --> F
-    F --> J[次のイベント待機]
+    F --> J[Next event waiting]
     I --> J
 ```
 
-これらの図により、Better MVの複雑な状態管理とイベント処理の流れが視覚的に理解できます。各コンポーネントがどのように連携し、状態がどのように変化するかが明確になります。
+These diagrams provide a visual understanding of tuimv's complex state management and event processing flow. They clearly show how each component collaborates and how states change.

@@ -1,45 +1,47 @@
-# Better MV - ファイル移動ツール
+# tuimv - File Movement Tool
 
-Better MVは、ターミナルベースのファイル移動ツールで、直感的なUIと効率的なファイル操作を提供します。
+> [日本語版はこちら](README_ja.md) / [Japanese version is here](README_ja.md)
 
-## 概要
+tuimv is a terminal-based file movement tool that provides an intuitive UI and efficient file operations.
 
-Better MVは、Bubble Tea（Go言語のTUIフレームワーク）を使用して構築された、6つのパネルレイアウトを持つファイル管理ツールです。ユーザーは現在のディレクトリからファイルを選択し、ターゲットディレクトリに移動することができます。
+## Overview
 
-## アーキテクチャ
+tuimv is a file management tool built using Bubble Tea (Go's TUI framework) with a 6-panel layout. Users can select files from the current directory and move them to a target directory.
 
-### パッケージ構造
+## Architecture
+
+### Package Structure
 
 ```
 better-mv/
-├── cmd/bmv/           # メインエントリーポイント
+├── cmd/bmv/           # Main entry point
 ├── internal/
-│   ├── model/         # データモデルとアプリケーション状態
-│   └── ui/            # ユーザーインターフェースとTUIロジック
-└── specifications/     # プロジェクト仕様書
+│   ├── model/         # Data models and application state
+│   └── ui/            # User interface and TUI logic
+└── specifications/     # Project specifications
 ```
 
-### コアコンポーネント
+### Core Components
 
-#### 1. アプリケーション状態管理 (`internal/model/`)
+#### 1. Application State Management (`internal/model/`)
 
-- **`AppState`**: アプリケーションの全体状態を管理
-- **`PanelType`**: 6つのパネルの種類を定義
-- **`AppMode`**: アプリケーションの動作モード（通常、検索、移動）
-- **`FileInfo`**: ファイル情報の構造体
-- **`DirectoryInfo`**: ディレクトリ情報の構造体
+- **`AppState`**: Manages the overall application state
+- **`PanelType`**: Defines the 6 panel types
+- **`AppMode`**: Application operation mode (normal, search, move)
+- **`FileInfo`**: File information structure
+- **`DirectoryInfo`**: Directory information structure
 
-#### 2. ユーザーインターフェース (`internal/ui/`)
+#### 2. User Interface (`internal/ui/`)
 
-- **`Model`**: メインUIモデルと状態管理
-- **`View`**: 画面レンダリングロジック
-- **`Keybindings`**: キーボード入力処理
-- **`Messages`**: カスタムメッセージタイプ
-- **`Styles`**: UIスタイリング
+- **`Model`**: Main UI model and state management
+- **`View`**: Screen rendering logic
+- **`Keybindings`**: Keyboard input processing
+- **`Messages`**: Custom message types
+- **`Styles`**: UI styling
 
-## パネルレイアウト
+## Panel Layout
 
-アプリケーションは6つのパネルで構成されています：
+The application consists of 6 panels:
 
 ```
 ┌─────────────────┬─────────────────┬─────────────────┬─────────────────┐
@@ -53,60 +55,60 @@ better-mv/
 └─────────────────┴─────────────────┴─────────────────┴─────────────────┘
 ```
 
-### パネルの詳細
+### Panel Details
 
-1. **Current Directory Input** - 現在のディレクトリパス入力
-2. **Current Files List** - 現在のディレクトリのファイル一覧
-3. **Target Directory Input** - ターゲットディレクトリパス入力
-4. **Target Files List** - ターゲットディレクトリのファイル一覧
-5. **Selected Files List** - 移動対象として選択されたファイル一覧
-6. **Fuzzy Search Results** - ディレクトリ検索結果
+1. **Current Directory Input** - Current directory path input
+2. **Current Files List** - List of files in current directory
+3. **Target Directory Input** - Target directory path input
+4. **Target Files List** - List of files in target directory
+5. **Selected Files List** - List of files selected for movement
+6. **Fuzzy Search Results** - Directory search results
 
-## 動作フロー
+## Operation Flow
 
-### 1. アプリケーション起動
+### 1. Application Startup
 
 ```go
 func main() {
-    m := ui.NewModel()           // UIモデルの初期化
-    p := tea.NewProgram(m)       // Bubble Teaプログラムの作成
-    p.Run()                      // プログラムの実行
+    m := ui.NewModel()           // Initialize UI model
+    p := tea.NewProgram(m)       // Create Bubble Tea program
+    p.Run()                      // Execute program
 }
 ```
 
-### 2. モデル初期化
+### 2. Model Initialization
 
 ```go
 func NewModel() *Model {
-    state := model.NewAppState()  // アプリケーション状態の初期化
+    state := model.NewAppState()  // Initialize application state
     
-    // 各UIコンポーネントの初期化
+    // Initialize each UI component
     currentDirInput := NewShortTextInput(...)
     targetDirInput := NewShortTextInput(...)
-    // ... その他のコンポーネント
+    // ... other components
     
     return &Model{...}
 }
 ```
 
-### 3. イベント処理
+### 3. Event Processing
 
-アプリケーションは以下のメッセージタイプを処理します：
+The application handles the following message types:
 
-- **`tea.WindowSizeMsg`**: ウィンドウサイズの変更
-- **`tea.KeyMsg`**: キーボード入力
-- **`PanelSwitchMsg`**: パネル切り替え
-- **`FileSelectedMsg`**: ファイル選択
-- **`DirectoryChangedMsg`**: ディレクトリ変更
-- **`SearchQueryChangedMsg`**: 検索クエリ変更
+- **`tea.WindowSizeMsg`**: Window size changes
+- **`tea.KeyMsg`**: Keyboard input
+- **`PanelSwitchMsg`**: Panel switching
+- **`FileSelectedMsg`**: File selection
+- **`DirectoryChangedMsg`**: Directory changes
+- **`SearchQueryChangedMsg`**: Search query changes
 
-### 4. パネルナビゲーション
+### 4. Panel Navigation
 
-ユーザーは以下の方法でパネル間を移動できます：
+Users can navigate between panels using:
 
-- **Vimスタイル**: `h`, `j`, `k`, `l`キー
-- **Tabナビゲーション**: `Tab`, `Shift+Tab`
-- **直接指定**: カスタムメッセージ
+- **Vim-style**: `h`, `j`, `k`, `l` keys
+- **Tab navigation**: `Tab`, `Shift+Tab`
+- **Direct specification**: Custom messages
 
 ```go
 func (m *Model) getPanelToLeft() model.PanelType {
@@ -115,24 +117,24 @@ func (m *Model) getPanelToLeft() model.PanelType {
         return model.CurrentDirInput
     case model.TargetFilesList:
         return model.CurrentFilesList
-    // ... その他のケース
+    // ... other cases
     }
 }
 ```
 
-### 5. ファイル操作
+### 5. File Operations
 
-#### ファイル選択
+#### File Selection
 ```go
 func (m Model) handleFileSelectedMsg(msg FileSelectedMsg) (tea.Model, tea.Cmd) {
-    // ファイルが既に選択されているかチェック
+    // Check if file is already selected
     for _, selected := range m.state.SelectedFiles {
         if selected.AbsPath == msg.File.AbsPath {
-            return m, nil // 既に選択済み
+            return m, nil // Already selected
         }
     }
     
-    // ファイルを選択済みリストに追加
+    // Add file to selected list
     msg.File.IsSelected = true
     m.state.SelectedFiles = append(m.state.SelectedFiles, *msg.File)
     
@@ -140,7 +142,7 @@ func (m Model) handleFileSelectedMsg(msg FileSelectedMsg) (tea.Model, tea.Cmd) {
 }
 ```
 
-#### ディレクトリ変更
+#### Directory Changes
 ```go
 func (m Model) handleDirectoryChangedMsg(msg DirectoryChangedMsg) (tea.Model, tea.Cmd) {
     if msg.IsTarget {
@@ -151,133 +153,133 @@ func (m Model) handleDirectoryChangedMsg(msg DirectoryChangedMsg) (tea.Model, te
         m.currentDirInput.SetValue(msg.Path)
     }
     
-    // TODO: ディレクトリスキャンのトリガー
+    // TODO: Trigger directory scan
     return m, nil
 }
 ```
 
-## キーバインド
+## Key Bindings
 
-### グローバルキーバインド
+### Global Key Bindings
 
-- **`Ctrl+C` / `q`**: アプリケーション終了
-- **`Esc`**: 検索モードのクリア、選択の解除
-- **`/`**: 検索モードのアクティベート
+- **`Ctrl+C` / `q`**: Exit application
+- **`Esc`**: Clear search mode, deselect
+- **`/`**: Activate search mode
 
-### ナビゲーション
+### Navigation
 
-- **`h`, `j`, `k`, `l`**: Vimスタイルのパネル移動
-- **`Tab`**: 次のパネルに移動
-- **`Shift+Tab`**: 前のパネルに移動
+- **`h`, `j`, `k`, `l`**: Vim-style panel movement
+- **`Tab`**: Move to next panel
+- **`Shift+Tab`**: Move to previous panel
 
-### パネル固有のキーバインド
+### Panel-Specific Key Bindings
 
-#### ファイルリストパネル
-- **`↑`, `↓`**: カーソル移動
-- **`Space`**: ファイル選択/選択解除
-- **`Enter`**: ディレクトリナビゲーション
+#### File List Panels
+- **`↑`, `↓`**: Cursor movement
+- **`Space`**: File selection/deselection
+- **`Enter`**: Directory navigation
 
-#### 選択済みファイルパネル
-- **`Delete` / `Backspace`**: 選択からファイルを削除
-- **`Cmd+Enter` / `Ctrl+Enter`**: ファイル移動の実行
+#### Selected Files Panel
+- **`Delete` / `Backspace`**: Remove file from selection
+- **`Cmd+Enter` / `Ctrl+Enter`**: Execute file movement
 
-## 状態管理
+## State Management
 
-### AppState構造体
+### AppState Structure
 
 ```go
 type AppState struct {
-    CurrentDir    string            // 現在のディレクトリパス
-    TargetDir     string            // ターゲットディレクトリパス
-    CurrentFiles  []FileInfo        // 現在のディレクトリのファイル
-    TargetFiles   []FileInfo        // ターゲットディレクトリのファイル
-    SelectedFiles []FileInfo        // 移動対象として選択されたファイル
-    SearchResults []DirectoryInfo   // 検索結果
-    SearchQuery   string            // 現在の検索クエリ
-    ActivePanel   PanelType         // 現在アクティブなパネル
-    CurrentIndex  map[PanelType]int // 各パネルのカーソル位置
-    Mode          AppMode           // 現在のアプリケーションモード
-    IsSearching   bool              // 検索モードの状態
+    CurrentDir    string            // Current directory path
+    TargetDir     string            // Target directory path
+    CurrentFiles  []FileInfo        // Files in current directory
+    TargetFiles   []FileInfo        // Files in target directory
+    SelectedFiles []FileInfo        // Files selected for movement
+    SearchResults []DirectoryInfo   // Search results
+    SearchQuery   string            // Current search query
+    ActivePanel   PanelType         // Currently active panel
+    CurrentIndex  map[PanelType]int // Cursor position for each panel
+    Mode          AppMode           // Current application mode
+    IsSearching   bool              // Search mode state
 }
 ```
 
-### パネル状態の追跡
+### Panel State Tracking
 
-各パネルのカーソル位置は`CurrentIndex`マップで管理され、パネル切り替え時にも保持されます。
+Each panel's cursor position is managed in the `CurrentIndex` map and preserved during panel switches.
 
-## メッセージシステム
+## Message System
 
-Bubble Teaのメッセージシステムを使用して、UIコンポーネント間の通信を実現しています：
+Uses Bubble Tea's message system for communication between UI components:
 
 ```go
-// パネル切り替えメッセージ
+// Panel switch message
 type PanelSwitchMsg struct {
     Panel model.PanelType
 }
 
-// ファイル選択メッセージ
+// File selection message
 type FileSelectedMsg struct {
     File  *model.FileInfo
     Index int
 }
 
-// ディレクトリ変更メッセージ
+// Directory change message
 type DirectoryChangedMsg struct {
     Path     string
     IsTarget bool
 }
 ```
 
-## 拡張性
+## Extensibility
 
-### 新しいパネルの追加
+### Adding New Panels
 
-1. `model.PanelType`に新しい定数を追加
-2. `Model`構造体にUIコンポーネントを追加
-3. `View()`関数でレンダリングロジックを実装
-4. キーバインド処理を追加
-5. ナビゲーションロジックを更新
+1. Add new constant to `model.PanelType`
+2. Add UI component to `Model` struct
+3. Implement rendering logic in `View()` function
+4. Add key binding processing
+5. Update navigation logic
 
-### 新しいメッセージタイプの追加
+### Adding New Message Types
 
-1. `messages.go`に新しいメッセージ構造体を定義
-2. `Update()`関数でメッセージハンドラーを実装
-3. 必要に応じてUIコンポーネントを更新
+1. Define new message struct in `messages.go`
+2. Implement message handler in `Update()` function
+3. Update UI components as needed
 
-## 今後の実装予定
+## Future Implementation Plans
 
-- [ ] ファイル移動操作の実装
-- [ ] ディレクトリスキャンの実装
-- [ ] エラー処理とユーザー通知
-- [ ] 設定ファイルのサポート
-- [ ] プラグインシステム
-- [ ] 履歴機能
+- [ ] File movement operation implementation
+- [ ] Directory scan implementation
+- [ ] Error handling and user notifications
+- [ ] Configuration file support
+- [ ] Plugin system
+- [ ] History functionality
 
-## 技術スタック
+## Technology Stack
 
-- **言語**: Go
-- **TUIフレームワーク**: Bubble Tea
-- **スタイリング**: Lip Gloss
-- **アーキテクチャ**: MVCパターン
-- **状態管理**: カスタム状態マシン
+- **Language**: Go
+- **TUI Framework**: Bubble Tea
+- **Styling**: Lip Gloss
+- **Architecture**: MVC pattern
+- **State Management**: Custom state machine
 
-## 開発環境のセットアップ
+## Development Environment Setup
 
 ```bash
-# リポジトリのクローン
+# Clone repository
 git clone <repository-url>
 cd better-mv
 
-# 依存関係のインストール
+# Install dependencies
 go mod download
 
-# アプリケーションの実行
+# Run application
 go run cmd/bmv/main.go
 
-# ビルド
+# Build
 go build -o bmv cmd/bmv/main.go
 ```
 
-## ライセンス
+## License
 
-このプロジェクトはMITライセンスの下で公開されています。
+This project is published under the MIT License.
